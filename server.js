@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+require('dotenv').config();
+
 
 const app = express();
 
@@ -10,7 +12,7 @@ app.use(cors());
 
 // GET all Currencies
 app.get('/getAllCurrencies', async (req, res) => {
-    const url = 'https://openexchangerates.org/api/currencies.json?app_id=6deca09aa85143e8a70de97e0211a32c';
+    const url = `https://openexchangerates.org/api/currencies.json?app_id=${process.env.OPEN_EXCHANGE_RATES_API_KEY}`;
     try {
         const response = await axios.get(url);
         const responseData = response.data;
@@ -26,7 +28,7 @@ app.get('/getAllCurrencies', async (req, res) => {
 // GET params and return Target value
 app.get('/convert', async (req, res) => {
     const { sourceCurrency, targetCurrency, date, sourceAmount } = req.query;
-    const url = `https://openexchangerates.org/api/historical/${date}.json?app_id=6deca09aa85143e8a70de97e0211a32c`;
+    const url = `https://openexchangerates.org/api/historical/${date}.json?app_id=${process.env.OPEN_EXCHANGE_RATES_API_KEY}`;
 
     try {
         const response = await axios.get(url);
